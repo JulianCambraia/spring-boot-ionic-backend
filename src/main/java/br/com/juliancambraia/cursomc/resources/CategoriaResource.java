@@ -1,6 +1,7 @@
 package br.com.juliancambraia.cursomc.resources;
 
 import br.com.juliancambraia.cursomc.domain.Categoria;
+import br.com.juliancambraia.cursomc.dto.CategoriaDTO;
 import br.com.juliancambraia.cursomc.services.CategoriaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/categorias")
@@ -54,5 +57,12 @@ public class CategoriaResource {
         this.categoriaService.delete(id);
         return ResponseEntity.noContent().build();
 
+    }
+
+    @GetMapping
+    public ResponseEntity<List<CategoriaDTO>> buscarTodasCategorias() {
+        List<Categoria> categoriaList = this.categoriaService.findAll();
+        List<CategoriaDTO> categoriaDTOList = categoriaList.stream().map(categoria -> new CategoriaDTO(categoria)).collect(Collectors.toList());
+        return ResponseEntity.ok().body(categoriaDTOList);
     }
 }
