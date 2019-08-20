@@ -1,5 +1,6 @@
 package br.com.juliancambraia.cursomc.resources.exceptions;
 
+import br.com.juliancambraia.cursomc.services.exceptions.DataIntegrityExeption;
 import br.com.juliancambraia.cursomc.services.exceptions.ObjectNotFoundExeption;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,4 +17,11 @@ public class ResourceExceptionHandler {
         StandardError error = new StandardError(HttpStatus.NOT_FOUND.value(), e.getMessage(), System.currentTimeMillis());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
     }
+
+    @ExceptionHandler(DataIntegrityExeption.class)
+    public ResponseEntity<StandardError> dataIntegrity(DataIntegrityExeption e, HttpServletRequest request) {
+        StandardError error = new StandardError(HttpStatus.BAD_REQUEST.value(), e.getMessage(), System.currentTimeMillis());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+    }
+
 }
