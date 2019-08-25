@@ -1,6 +1,7 @@
 package br.com.juliancambraia.cursomc.services;
 
 import br.com.juliancambraia.cursomc.domain.Categoria;
+import br.com.juliancambraia.cursomc.dto.CategoriaDTO;
 import br.com.juliancambraia.cursomc.repositories.CategoriaRepository;
 import br.com.juliancambraia.cursomc.services.exceptions.DataIntegrityExeption;
 import br.com.juliancambraia.cursomc.services.exceptions.ObjectNotFoundExeption;
@@ -53,5 +54,9 @@ public class CategoriaService {
     public Page<Categoria> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
         PageRequest pageRequest = PageRequest.of(page, linesPerPage, Sort.Direction.valueOf(direction), orderBy);
         return categoriaRepository.findAll(pageRequest);
+    }
+
+    public Categoria fromDTO(CategoriaDTO categoriaDTO) {
+        return new Categoria(categoriaDTO.getId(), categoriaDTO.getNome());
     }
 }

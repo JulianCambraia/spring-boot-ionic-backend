@@ -1,7 +1,9 @@
 package br.com.juliancambraia.cursomc.dto;
 
 import br.com.juliancambraia.cursomc.domain.Categoria;
+import org.hibernate.validator.constraints.Length;
 
+import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 
 public class CategoriaDTO implements Serializable {
@@ -10,6 +12,8 @@ public class CategoriaDTO implements Serializable {
 
     private Long id;
 
+    @Length(min = 5, max = 80, message = "O Preenchimento deve ser entre 5 a 80 caracteres.")
+    @NotEmpty(message = "Preenchimento obrigatório.")
     private String nome;
 
     public CategoriaDTO() {
