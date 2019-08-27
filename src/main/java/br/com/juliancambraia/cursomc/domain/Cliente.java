@@ -3,6 +3,7 @@ package br.com.juliancambraia.cursomc.domain;
 import br.com.juliancambraia.cursomc.domain.enums.TipoClienteEnum;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
@@ -40,7 +41,7 @@ public class Cliente implements Serializable {
 
     private Long tipoClienteEnum;
 
-    @OneToMany(mappedBy = "cliente")
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Endereco> enderecos = new ArrayList<>();
 
     @JsonIgnore
