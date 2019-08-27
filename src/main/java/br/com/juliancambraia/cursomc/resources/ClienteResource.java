@@ -2,6 +2,7 @@ package br.com.juliancambraia.cursomc.resources;
 
 import br.com.juliancambraia.cursomc.domain.Cliente;
 import br.com.juliancambraia.cursomc.dto.ClienteDTO;
+import br.com.juliancambraia.cursomc.dto.ClienteNewDTO;
 import br.com.juliancambraia.cursomc.services.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -9,13 +10,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
+import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,6 +34,15 @@ public class ClienteResource {
     public ResponseEntity<Cliente> find(@PathVariable Long id) {
         Cliente cliente = this.clienteService.find(id);
         return ResponseEntity.ok().body(cliente);
+    }
+
+    @PostMapping
+    public ResponseEntity<ClienteNewDTO> incluir(@Valid @RequestBody ClienteNewDTO newDTO) {
+        Cliente cliente = this.clienteService.fromDTO(newDTO);
+        this.clienteService.insert(cliente);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("{/id}").buildAndExpand(cliente.getId()).toUri();
+
+        return ResponseEntity.created(uri).build();
     }
 
     @PutMapping(value = "/{id}")
