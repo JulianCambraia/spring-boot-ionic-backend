@@ -1,7 +1,6 @@
 package br.com.juliancambraia.cursomc.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -52,6 +51,15 @@ public class Pedido implements Serializable {
         this.instante = instante;
         this.cliente = cliente;
         this.enderecoEntrega = enderecoEntrega;
+    }
+
+    public Double getTotalPedido() {
+        Double soma = 0.0;
+        for (ItemPedido itemPedido : itens) {
+            soma += itemPedido.getSubTotal();
+        }
+
+        return soma;
     }
 
     public Long getId() {
